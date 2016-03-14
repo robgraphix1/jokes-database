@@ -1,6 +1,20 @@
 <?php
 
-include $_SERVER['DOCUMENT_ROOT'] . 'jokes-database/includes/magicquotes.inc.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . 'jokes-database/includes/magicquotes.inc.php';
+
+require_once $_SERVER['DOCUMENT_ROOT'] . 'jokes-database/includes/access.inc.php';
+
+if(!userIsLoggedIn())
+{
+	include $_SERVER['DOCUMENT_ROOT'] . 'jokes-database/login.html.php';
+	exit();
+}
+
+if(!userHasRole)
+{
+	$error = 'Only Account Administrators may access this page.';
+	include $_SERVER['DOCUMENT_ROOT'] . 'jokes-database/accessdenied.html.php';
+}
 
 if(isset($_GET['add']))
 {
