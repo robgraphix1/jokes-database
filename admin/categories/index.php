@@ -1,12 +1,12 @@
 <?php
 include_once $_SERVER['DOCUMENT_ROOT'] . 'jokes-database/includes/magicquotes.inc.php';
 
-include_once $_SERVER['DOCUMENT_ROOT'] . 'jokes-database/includes/access.inc.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . 'jokes-database/includes/access.inc.php';
 
 //check to see if user is logged in
 if(!userIsLoggedIn())
 {
-	include $_SERVER['DOCUMENT_ROOT'] . 'jokes-database/login.html.php';
+	include $_SERVER['DOCUMENT_ROOT'] . 'jokes-database/admin/login.html.php';
 	exit();
 }
 
@@ -14,7 +14,7 @@ if(!userIsLoggedIn())
 if(!userHasRole())
 {
 	$error = 'Only Site Adminisrators have access to this page.';
-	include include $_SERVER['DOCUMENT_ROOT'] . 'jokes-database/accessdenied.html.php';
+	include include $_SERVER['DOCUMENT_ROOT'] . 'jokes-database/admin/accessdenied.html.php';
 	exit();
 }
 

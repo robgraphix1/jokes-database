@@ -7,7 +7,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . 'jokes-database/includes/access.inc.php
 //check to see if user is logged in
 if(!userIsLoggedIn())
 {
-	include $_SERVER['DOCUMENT_ROOT'] . 'jokes-database/login.html.php';
+	include $_SERVER['DOCUMENT_ROOT'] . 'jokes-database/admin/login.html.php';
 	exit();
 }
 
@@ -15,7 +15,7 @@ if(!userIsLoggedIn())
 if(!userHasRole)
 {
 	$error = 'Only Account Administrators may access this page.';
-	include $_SERVER['DOCUMENT_ROOT'] . 'jokes-database/accessdenied.html.php';
+	include $_SERVER['DOCUMENT_ROOT'] . 'jokes-database/admin/accessdenied.html.php';
 }
 
 if(isset($_GET['add']))
