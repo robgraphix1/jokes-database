@@ -1,5 +1,22 @@
 <?php
+include_once $_SERVER['DOCUMENT_ROOT'] . 'jokes-database/includes/magicquotes.inc.php';
 
+include_once $_SERVER['DOCUMENT_ROOT'] . 'jokes-database/includes/access.inc.php';
+
+//check to see if user is logged in
+if(!userIsLoggedIn())
+{
+	include $_SERVER['DOCUMENT_ROOT'] . 'jokes-database/login.html.php';
+	exit();
+}
+
+//check to see if user has access rights
+if(!userHasRole())
+{
+	$error = 'Only Site Adminisrators have access to this page.';
+	include include $_SERVER['DOCUMENT_ROOT'] . 'jokes-database/accessdenied.html.php';
+	exit();
+}
 
 //set up the add form
 if(isset($_GET['add']))

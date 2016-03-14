@@ -2,6 +2,26 @@
 include_once $_SERVER['DOCUMENT_ROOT'] .
     'jokes-database/includes/magicquotes.inc.php';
 
+include_once $_SERVER['DOCUMENT_ROOT'] . 'jokes-database/includes/access.inc.php';
+
+//check to see if user is logged in
+if(!userIsLoggedIn())
+{
+  include $_SERVER['DOCUMENT_ROOT'] . 'jokes-database/login.html.php';
+  exit();
+}
+
+
+//check to see if user has access rights
+if(!userHasRole())
+{
+  $error = 'Only Content Editors have access to this page.';
+  include $_SERVER['DOCUMENT_ROOT'] . 'jokes-database/accessdenied.html.php';
+  exit();
+} 
+
+
+
 if(isset($_GET['add']))
 {
 	include $_SERVER['DOCUMENT_ROOT'] .

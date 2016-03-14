@@ -4,12 +4,14 @@ include_once $_SERVER['DOCUMENT_ROOT'] . 'jokes-database/includes/magicquotes.in
 
 require_once $_SERVER['DOCUMENT_ROOT'] . 'jokes-database/includes/access.inc.php';
 
+//check to see if user is logged in
 if(!userIsLoggedIn())
 {
 	include $_SERVER['DOCUMENT_ROOT'] . 'jokes-database/login.html.php';
 	exit();
 }
 
+//check to see if user has access rights
 if(!userHasRole)
 {
 	$error = 'Only Account Administrators may access this page.';
@@ -29,7 +31,7 @@ if(isset($_GET['add']))
 	exit();
 }
 
-
+//set up the add form
 if(isset($_GET['addform']))
 {
 	include $_SERVER['DOCUMENT_ROOT'] . 'jokes-database/includes/db.inc.php';
@@ -85,6 +87,8 @@ if(isset($_POST['action']) and $_POST['action'] == 'Edit')
 	exit();
 }
 
+
+//edit and author entry
 if(isset($_GET['editform']))
 {
 	include $_SERVER['DOCUMENT_ROOT'] . 'jokes-database/includes/db.inc.php';
