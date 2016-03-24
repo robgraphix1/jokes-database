@@ -26,6 +26,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . 'jokes-database/includes/helpers.inc.ph
 
   		</ul>
   		<p><a href="..">Return to JMS home</a>
+      <?php include 'logout'  
 
   </body>
 </html>
