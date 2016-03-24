@@ -33,5 +33,6 @@
     <?php endif; ?>
     <p><a href="?">New Search</a></p>
     <p><a href="..">Return to JMS home</a></p>
+    <?php include $_SERVER['DOCUMENT_ROOT'] . 'includes/logout.inc.html.php'; ?>
 </body>
 </html>

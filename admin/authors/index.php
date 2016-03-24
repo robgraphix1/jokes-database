@@ -12,7 +12,7 @@ if(!userIsLoggedIn())
 }
 
 //check to see if user has access rights
-if(!userHasRole)
+if(!userHasRole())
 {
 	$error = 'Only Account Administrators may access this page.';
 	include $_SERVER['DOCUMENT_ROOT'] . 'jokes-database/admin/accessdenied.html.php';
