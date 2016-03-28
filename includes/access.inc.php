@@ -33,7 +33,25 @@ function userIsLoggedIn()
 		return FALSE;	
 	}
 
+	if(isset($_POST['action']) and $_POST['action'] == 'logout')
+	{
+		session_start();
+		unset($_SESSION['loggedIn']);
+		unset($_SESSION['email']);
+		unset($_SESSION['password']);
+		header('Location: . $_POST['goto']');
+		exit();
+	}
+
+	session_start();
+	if(isset($_SESSION['loggedIn']))
+	{
+		return databaseContainsAuthor($_SESSION['email'], $_SESSION['password']);
+	}
+
 }
+
+
 
 function databaseContainsAuthor($email, $password)
 {
@@ -66,3 +84,5 @@ function databaseContainsAuthor($email, $password)
 		return FALSE;
 	}
 }
+
+
