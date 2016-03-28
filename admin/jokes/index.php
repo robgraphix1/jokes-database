@@ -13,7 +13,7 @@ if(!userIsLoggedIn())
 
 
 //check to see if user has access rights
-if(!userHasRole())
+if(!userHasRole('Content Editor'))
 {
   $error = 'Only Content Editors have access to this page.';
   include $_SERVER['DOCUMENT_ROOT'] . 'jokes-database/admin/accessdenied.html.php';

@@ -5,32 +5,33 @@ function userIsLoggedIn()
 	if(isset($_POST['action']) and $_POST['action'] == 'login')
 	{
 		if(!isset($_POST['email']) or $_POST['email'] == '' or
-			!isset($_POST['passord']) or $_POST['password'] == '')
+			!isset($_POST['password']) or $_POST['password'] == '')
 		{
 			$GLOBALS['loginError'] = 'Please fill in both fields';
 			return FALSE;
 		}	
-	}
+	
 
-	$password = md5($_POST['password'] . 'ijdb');
+		$password = md5($_POST['password'] . 'ijdb');
 
-	if(databaseContainsAuthor($_POST['email'], $password))
-	{
-		session_start();
-		$_SESSION['loggedIn'] = TRUE;	
-		$_SESSION['email'] = $_POST['email'];
-		$_SESSION['password'] = $password;
-		return TRUE;
-	}
-	else
-	{
-		session_start();
-		unset($_SESSION['loggedIn']);
-		unset($_SESSION['email']);
-		unset($_SESSION['passord']);
-		$_GLOBALS['loginError'] = 'The specified email address or password
-		was incorrect.';
-		return FALSE;	
+		if(databaseContainsAuthor($_POST['email'], $password))
+		{
+			session_start();
+			$_SESSION['loggedIn'] = TRUE;	
+			$_SESSION['email'] = $_POST['email'];
+			$_SESSION['password'] = $password;
+			return TRUE;
+		}
+		else
+		{
+			session_start();
+			unset($_SESSION['loggedIn']);
+			unset($_SESSION['email']);
+			unset($_SESSION['password']);
+			$GLOBALS['loginError'] = 'The specified email address or password
+			was incorrect.';
+			return FALSE;	
+		}
 	}
 
 	if(isset($_POST['action']) and $_POST['action'] == 'logout')
@@ -39,7 +40,7 @@ function userIsLoggedIn()
 		unset($_SESSION['loggedIn']);
 		unset($_SESSION['email']);
 		unset($_SESSION['password']);
-		header('Location: . $_POST['goto']');
+		header('Location: ' . $_POST['goto']);
 		exit();
 	}
 
@@ -62,9 +63,9 @@ function databaseContainsAuthor($email, $password)
 		$sql = 'SELECT COUNT(*) FROM author
 		WHERE email = :email AND password = :password';
 		$s = $pdo->prepare($sql);
-		$s->bindValue(':email'=>$email);
-		$s->bindValue(':password'=>$password);
-		$s-execute();
+		$s->bindValue(':email', $email);
+		$s->bindValue(':password', $password);
+		$s->execute();
 	}
 	catch(PDOException $e)
 	{
@@ -86,3 +87,35 @@ function databaseContainsAuthor($email, $password)
 }
 
 
+function userHasRole($role)
+{
+	include 'db.inc.php';
+	try
+	{
+		$sql = 'SELECT COUNT(*) FROM author
+		INNER JOIN authorrole ON author.id = authorid
+		INNER JOIN role ON roleid = role.id
+		WHERE email = :email AND role.id = :roleId';
+		$s = $pdo->prepare($sql);
+		$s->bindValue(':email', $_SESSION['email']);
+		$s->bindvalue(':roleId', $role);
+		$s->execute();
+	}
+	catch(PDOException $e)
+	{
+		$error = "Error searching for roles";
+		include 'error.php.html';
+		exit();
+	}
+
+	$row = $s->fetch();
+
+	if($row[0] > 0)
+	{
+		return TRUE;
+	}
+	else
+	{
+		return FALSE;
+	}
+}

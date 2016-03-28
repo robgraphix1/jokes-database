@@ -1,5 +1,5 @@
 <?php include_once $_SERVER['DOCUMENT_ROOT'] .
-    '/includes/helpers.inc.php'; ?>
+    'jokes-database/includes/helpers.inc.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -19,7 +19,7 @@
 			</label>
 		</div>
 		<div>
-			<label for="password">Passsword:
+			<label for="password">Password:
 				<input type="password" name="password" id="password">
 			</label>
 		</div>
@@ -27,7 +27,7 @@
 			<input type="hidden" name="action" value="login">
 			<input type="submit" value="Log in">
 		</div>
-		<p><a href="/admin/">Return to JMS home</a></p>
+		<p><a href="/jokes-database/admin/">Return to JMS home</a></p>
 	</form>
   </body>
  </html>
