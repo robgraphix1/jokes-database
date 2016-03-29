@@ -21,7 +21,7 @@
         <label for="password">Set password: <input type="password" name="password" id="password"></label>  
       </div>
       <fieldset><legend>Roles:</legend>
-        <?php for($i = 0; $i < count(roles); $i++): ?>
+        <?php for($i = 0; $i < count($roles); $i++): ?>
           <div>
             <label for="role<?php echo $i ;?>"><input type="checkbox" name="roles[]"id="role<?php echo $i; ?>" value="<?php htmlout($roles[$i]['id']); ?>"
               <?php if($roles[$i]['selected'])

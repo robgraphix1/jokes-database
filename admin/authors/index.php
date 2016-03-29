@@ -30,6 +30,23 @@ if(isset($_GET['add']))
 	$id = '';
 	$button = 'Add author';
 
+	try
+	{
+		$result = $pdo->query('SELECT id, description FROM role');
+	}
+	catch(PDOException $e)
+	{
+		$error = "Error fetching the list of roles.";
+		include 'error.html.php';
+		exit();
+	}
+
+	foreach($result as $row)
+	{
+	$role[] = array('id'=>$row['id'], 'description'=>$row['description'],
+	'selected'=>FALSE);	
+	}
+
 	include 'form.html.php';
 	exit();
 }
@@ -56,6 +73,55 @@ if(isset($_GET['addform']))
 		include 'error.html.php';
 		exit();
 	}
+
+	$authorid = $pdo->lastInsertId();
+
+	if($_POST['password'] != '')
+	{
+		$password = md5($_POST['password'] . 'ijdb');
+
+		try
+		{
+			$sql = 'UPDATE author SET
+			password = :password
+			WHERE id = :id';
+			$s = $pdo->prepare($sql);
+			$s->bindValue(':password',$password);
+			$s->bindValue(':id', $authorid);
+			$s->execute();
+		}
+		catch(PDOException $e)
+		{
+			$error = "Error setting author password.";
+			include 'error.html.php';
+			exit();
+		}
+	}
+
+	if(isset($_POST['roles']))
+	{
+		foreach($_POST['roles'] as $role)
+		{
+			try
+			{
+				$sql = 'INSERT INTO authorrole SET
+				authorid = :authorid,
+				roleid = :roleid';
+				$s = $pdo->prepare($sql);
+				$s->bindValue(':authorid', $authorid);
+				$s->bindValue(':roleid', $role);
+				$s->execute();
+			}
+			catch(PDOException $e)
+			{
+				$error = "Error setting selected author roles.";
+				include 'error.html.php';
+				exit();
+			}
+		}
+	}
+	header('Location: .');
+	exit();
 }
 
 
