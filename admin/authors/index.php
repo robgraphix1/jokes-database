@@ -21,6 +21,8 @@ if(!userHasRole('Account Administrator'))
 
 if(isset($_GET['add']))
 {
+	include $_SERVER['DOCUMENT_ROOT'] . 'jokes-database/includes/db.inc.php';
+
 	$pageTitle = 'New Author';
 	$action = 'addform';
 	$name = '';
