@@ -43,7 +43,7 @@ if(isset($_GET['add']))
 
 	foreach($result as $row)
 	{
-	$role[] = array('id'=>$row['id'], 'description'=>$row['description'],
+	$roles[] = array('id'=>$row['id'], 'description'=>$row['description'],
 	'selected'=>FALSE);	
 	}
 
@@ -132,7 +132,7 @@ if(isset($_POST['action']) and $_POST['action'] == 'Edit')
 
 	try
 	{
-		$sql = 'SELECT name, email, id FROM author WHERE id = :id';
+		$sql = 'SELECT id, name, email FROM author WHERE id = :id';
 		$s = $pdo->prepare($sql);
 		$s->bindValue(':id', $_POST['id']);
 		$s->execute();
@@ -151,6 +151,28 @@ if(isset($_POST['action']) and $_POST['action'] == 'Edit')
 	$name = $row['name'];
 	$email = $row['email'];
 	$id = $row['id'];
+
+	//Get all the roles associated with this author
+
+	try
+	{
+		$sql = 'SELECT roleid FROM authorrole WHERE authorid = :id';
+		$s = $pdo->prepare($sql);
+		$s->bindValue(':id', $id);
+		$s->execute();
+	}
+	catch(PDOException $e)
+	{
+		$error = 'Error fetching roles assigned to this author.';
+		include 'error.html.php';
+		exit();
+	}
+
+	$selectedRoles = array();
+	foreach($s as $row)
+	{
+		$selectedRoles[] = $row['roleid'];
+	}
 
 	include 'form.html.php';
 	exit();
